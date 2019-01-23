@@ -3,7 +3,7 @@ import Cell from './Cell';
 
 class Plane extends Component {
   render() {
-    const planeWidth = this.props.columns * 20;
+    const planeWidth = this.props.columns * 10;
     const cells = [];
 
     for (var r = 0; r < this.props.rows; r++) {
