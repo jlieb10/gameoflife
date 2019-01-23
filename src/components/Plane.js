@@ -20,7 +20,7 @@ class Plane extends Component {
       }
     }
     return (
-      <div className="plane" style={{width: planeWidth}}>
+      <div className="plane" style={{ width: planeWidth }}>
         {cells}
       </div>
     );

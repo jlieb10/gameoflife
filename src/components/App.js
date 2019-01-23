@@ -7,8 +7,8 @@ class App extends Component {
 
     this.intervalLength = 10;
     this.currentInterval = null;
-    this.rows = 75;
-    this.columns = 75;
+    this.rows = 70;
+    this.columns = 100;
     this.originalState = Array(this.rows).fill().map(() => Array(this.columns).fill(false));
 
     this.state = {
@@ -40,8 +40,8 @@ class App extends Component {
   seedLife() {
     const gridClone = JSON.parse(JSON.stringify(this.state.grid));
 
-    for(let r = 0; r < this.rows; r++) {
-      for(let c = 0; c < this.columns; c++) {
+    for (let r = 0; r < this.rows; r++) {
+      for (let c = 0; c < this.columns; c++) {
         let toLive = Math.floor(Math.random() * 8) === 0;
         gridClone[r][c] = toLive;
       }
@@ -57,8 +57,8 @@ class App extends Component {
     const gridClone = JSON.parse(JSON.stringify(this.state.grid));
     const generation = this.state.generation += 1;
 
-    for(let r = 0; r < this.rows; r++) {
-      for(let c = 0; c < this.columns; c++) {
+    for (let r = 0; r < this.rows; r++) {
+      for (let c = 0; c < this.columns; c++) {
         let nearbyLife = 0;
 
         // For reference:
@@ -72,34 +72,34 @@ class App extends Component {
         // lowerRight = currentGrid[r+1][c+1]
 
         if (r > 0) {
-          if (currentGrid[r-1][c]){
+          if (currentGrid[r - 1][c]) {
             nearbyLife++
           }
-          if (c > 0 && currentGrid[r-1][c-1]) {
+          if (c > 0 && currentGrid[r - 1][c - 1]) {
             nearbyLife++
           }
-          if (c < this.columns-1 && currentGrid[r-1][c+1]) {
-            nearbyLife++
-          }
-        }
-
-        if (r < this.rows-1) {
-          if (currentGrid[r+1][c]){
-            nearbyLife++
-          }
-          if (c > 0 && currentGrid[r+1][c-1]) {
-            nearbyLife++
-          }
-          if (c < this.columns-1 && currentGrid[r+1][c+1]) {
+          if (c < this.columns - 1 && currentGrid[r - 1][c + 1]) {
             nearbyLife++
           }
         }
 
-        if (c > 0 && currentGrid[r][c-1]) {
+        if (r < this.rows - 1) {
+          if (currentGrid[r + 1][c]) {
+            nearbyLife++
+          }
+          if (c > 0 && currentGrid[r + 1][c - 1]) {
+            nearbyLife++
+          }
+          if (c < this.columns - 1 && currentGrid[r + 1][c + 1]) {
+            nearbyLife++
+          }
+        }
+
+        if (c > 0 && currentGrid[r][c - 1]) {
           nearbyLife++
         }
 
-        if (c < this.columns-1 && currentGrid[r][c+1]) {
+        if (c < this.columns - 1 && currentGrid[r][c + 1]) {
           nearbyLife++
         }
 
@@ -110,7 +110,7 @@ class App extends Component {
           }
         }
 
-        if(!currentGrid[r][c] && nearbyLife === 3) {
+        if (!currentGrid[r][c] && nearbyLife === 3) {
           // revived by three parents
           gridClone[r][c] = true;
         }
@@ -146,17 +146,19 @@ class App extends Component {
   render() {
     return (
       <div className="app-container">
-        <h1>Game of Life</h1>
-        <h2>Generation: {this.state.generation}</h2>
+        <h1>game of life</h1>
+        <h2>generation: {this.state.generation}</h2>
         <Plane
           grid={this.state.grid}
           rows={this.rows}
           columns={this.columns}
           selectCell={this.selectCell}
         />
-        <button onClick={this.liveButton}>live</button>
-        <button onClick={this.pauseButton}>pause</button>
-        <button onClick={this.seedButton}>seed</button>
+        <div className="button-container">
+          <button className="button button--live" onClick={this.liveButton}>live</button>
+          <button className="button button--pause" onClick={this.pauseButton}>pause</button>
+          <button className="button button--seed" onClick={this.seedButton}>seed</button>
+        </div>
       </div>
     );
   }
