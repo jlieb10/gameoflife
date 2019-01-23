@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Plane from './Plane';
 
-class App extends Component {
+class App extends PureComponent {
   constructor() {
     super();
 
-    this.intervalLength = 10;
+    this.intervalLength = 0;
     this.currentInterval = null;
-    this.rows = 70;
+    this.rows = 100;
     this.columns = 100;
-    this.originalState = Array(this.rows).fill().map(() => Array(this.columns).fill(false));
+    this.originalState = Array(this.rows).fill().map(() => Array(this.columns).fill(0));
 
     this.state = {
       generation: 0,
@@ -30,7 +30,7 @@ class App extends Component {
 
   selectCell(row, column) {
     const gridClone = JSON.parse(JSON.stringify(this.state.grid));
-    gridClone[row][column] = !gridClone[row][column];
+    gridClone[row][column] ? gridClone[row][column] = 0 : gridClone[row][column] = 1;
 
     this.setState({
       grid: gridClone
@@ -38,11 +38,12 @@ class App extends Component {
   }
 
   seedLife() {
+    const randFactor = Math.floor(Math.random() * 10) + 1
     const gridClone = JSON.parse(JSON.stringify(this.state.grid));
 
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.columns; c++) {
-        let toLive = Math.floor(Math.random() * 8) === 0;
+        let toLive = Math.floor(Math.random() * randFactor) === 0;
         gridClone[r][c] = toLive;
       }
     }
@@ -55,71 +56,51 @@ class App extends Component {
   live() {
     const currentGrid = this.state.grid;
     const gridClone = JSON.parse(JSON.stringify(this.state.grid));
-    const generation = this.state.generation += 1;
+
+    // For reference:
+    // upperLeft = currentGrid[r-1][c-1]
+    // above = currentGrid[r-1][c]
+    // upperRight = currentGrid[r-1][c+1]
+    // left = currentGrid[r][c-1]
+    // right = currentGrid[r][c+1]
+    // lowerLeft = currentGrid[r+1][c-1]
+    // below = currentGrid[r+1][c]
+    // lowerRight = currentGrid[r+1][c+1]
 
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.columns; c++) {
         let nearbyLife = 0;
 
-        // For reference:
-        // upperLeft = currentGrid[r-1][c-1]
-        // above = currentGrid[r-1][c]
-        // upperRight = currentGrid[r-1][c+1]
-        // left = currentGrid[r][c-1]
-        // right = currentGrid[r][c+1]
-        // lowerLeft = currentGrid[r+1][c-1]
-        // below = currentGrid[r+1][c]
-        // lowerRight = currentGrid[r+1][c+1]
-
         if (r > 0) {
-          if (currentGrid[r - 1][c]) {
-            nearbyLife++
-          }
-          if (c > 0 && currentGrid[r - 1][c - 1]) {
-            nearbyLife++
-          }
-          if (c < this.columns - 1 && currentGrid[r - 1][c + 1]) {
-            nearbyLife++
-          }
+          nearbyLife += currentGrid[r - 1][c] || 0;
+          nearbyLife += currentGrid[r - 1][c - 1] || 0;
+          nearbyLife += currentGrid[r - 1][c + 1] || 0;
         }
 
         if (r < this.rows - 1) {
-          if (currentGrid[r + 1][c]) {
-            nearbyLife++
-          }
-          if (c > 0 && currentGrid[r + 1][c - 1]) {
-            nearbyLife++
-          }
-          if (c < this.columns - 1 && currentGrid[r + 1][c + 1]) {
-            nearbyLife++
-          }
+          nearbyLife += currentGrid[r + 1][c] || 0;
+          nearbyLife += currentGrid[r + 1][c - 1] || 0;
+          nearbyLife += currentGrid[r + 1][c + 1] || 0;
         }
 
-        if (c > 0 && currentGrid[r][c - 1]) {
-          nearbyLife++
-        }
+        nearbyLife += currentGrid[r][c - 1] || 0;
+        nearbyLife += currentGrid[r][c + 1] || 0;
 
-        if (c < this.columns - 1 && currentGrid[r][c + 1]) {
-          nearbyLife++
-        }
-
-        if (currentGrid[r][c]) {
-          if (nearbyLife < 2 || nearbyLife > 3) {
-            // dies of loneliness or overpopulation
-            gridClone[r][c] = false;
-          }
+        if (currentGrid[r][c] && (nearbyLife < 2 || nearbyLife > 3)) {
+          // dies of loneliness or overpopulation
+          gridClone[r][c] = 0;
         }
 
         if (!currentGrid[r][c] && nearbyLife === 3) {
           // revived by three parents
-          gridClone[r][c] = true;
+          gridClone[r][c] = 1;
         }
       }
     }
 
     this.setState({
       grid: gridClone,
-      generation: generation
+      generation: this.state.generation + 1
     })
   }
 

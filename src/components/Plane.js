@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Cell from './Cell';
 
-class Plane extends Component {
+class Plane extends PureComponent {
   render() {
-    const planeWidth = this.props.columns * 10;
+    const planeWidth = this.props.columns * 7;
     const cells = [];
 
     for (var r = 0; r < this.props.rows; r++) {

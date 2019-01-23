@@ -1,5 +1,6 @@
 $sand: #FBEEC1;
 $water: #659DBD;
+$waterLight: rgba(101, 157, 189, 0.50);
 $moss: #8D8741;
 
 body {
@@ -33,12 +34,12 @@ code {
 }
 
 .cell {
-  border: 1px solid $water;
-  height: 8px;
-  width: 8px;
+  border: .5px solid $sand;
+  height: 6px;
+  width: 6px;
 
   &--dead {
-    background-color: $sand;
+    background-color: $waterLight;
   }
 
   &--alive {

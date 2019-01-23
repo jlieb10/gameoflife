@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-class Cell extends Component {
+class Cell extends PureComponent {
   constructor(props) {
     super(props)
 
