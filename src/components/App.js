@@ -7,8 +7,8 @@ class App extends PureComponent {
 
     this.intervalLength = 0;
     this.currentInterval = null;
-    this.rows = 100;
-    this.columns = 100;
+    this.rows = 50;
+    this.columns = 50;
     this.originalState = Array(this.rows).fill().map(() => Array(this.columns).fill(0));
 
     this.state = {

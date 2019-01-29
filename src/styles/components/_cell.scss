@@ -1,0 +1,14 @@
+.cell {
+  border: .5px solid $sand;
+  height: 6px;
+  width: 6px;
+
+  &--dead {
+    background-color: $waterLight;
+  }
+
+  &--alive {
+    background-color: $moss;
+    border-radius: 50%;
+  }
+}

@@ -1,64 +1,11 @@
-$sand: #FBEEC1;
-$water: #659DBD;
-$waterLight: rgba(101, 157, 189, 0.50);
-$moss: #8D8741;
+// *************
+// Global Styles
+// **************
+@import "./styles/vars";
+@import "./styles/global";
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: $sand;
-  color: $water;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
-.app-container {
-  margin: 0 auto;
-  width: auto;
-  max-width: 100vw;
-  text-align: center;
-}
-
-.plane {
-  height: auto;
-  margin: 0 auto;
-  display: flex;
-  flex-flow: row wrap;
-  max-width: 100vw;
-}
-
-.cell {
-  border: .5px solid $sand;
-  height: 6px;
-  width: 6px;
-
-  &--dead {
-    background-color: $waterLight;
-  }
-
-  &--alive {
-    background-color: $moss;
-  }
-}
-
-.button-container {
-  margin-top: 10px;
-}
-
-.button {
-  background-color: $sand;
-  border: 1px solid $water;
-  color: $water;
-  padding: 5px 10px;
-  margin: 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 24px;
-}
+// ****************
+// Component Styles
+// *****************
+@import "./styles/components/plane";
+@import "./styles/components/cell";
